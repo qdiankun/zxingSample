@@ -12,5 +12,7 @@
     <color name="laser_color">#65E102</color>
     <color name="corner_color">#65E102</color>
     <color name="label_text_color">#A5A49F</color>-->
+    <!--<color name="laser_color">#FF4081</color>-->
+    <!--<color name="corner_color">#FF4081</color>-->
     <!--QRCode scanner color end-->
 </resources>

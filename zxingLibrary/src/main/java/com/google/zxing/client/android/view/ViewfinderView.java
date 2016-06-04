@@ -74,6 +74,16 @@ public final class ViewfinderView extends View {
     //扫描区域提示文本颜色
     private final int labelTextColor;
     private final float labelTextSize;
+    //扫描区域下方提示文本
+    private final String bottomText;
+    private final int bottomTextColor;
+    private final float bottomTextSize;
+    // 字体大小
+//    private static final int TEXT_SIZE = 16;
+    //手机的屏幕密度
+    private static float density;
+    //字体距离扫描框下面的距离
+    private static final int TEXT_PADDING_TOP = 30;
 
     // 字体大小
     private static final int TEXT_SIZE = 16;
@@ -104,6 +114,9 @@ public final class ViewfinderView extends View {
         labelTextColor = array.getColor(R.styleable.ViewfinderView_label_text_color, 0x90FFFFFF);
         labelText = array.getString(R.styleable.ViewfinderView_label_text);
         labelTextSize = array.getFloat(R.styleable.ViewfinderView_label_text_size, 36f);
+        bottomTextColor = array.getColor(R.styleable.ViewfinderView_label_text_color, 0x90FFFFFF);
+        bottomText = array.getString(R.styleable.ViewfinderView_label_text);
+        bottomTextSize = array.getFloat(R.styleable.ViewfinderView_label_text_size, 50f);
 
         // Initialize these once for performance rather than calling them every time in onDraw().
         density = context.getResources().getDisplayMetrics().density;
@@ -111,6 +124,7 @@ public final class ViewfinderView extends View {
         paint.setAntiAlias(true);
         scannerAlpha = 0;
         possibleResultPoints = new HashSet<ResultPoint>(5);
+        density = context.getResources().getDisplayMetrics().density;
 
     }
 
@@ -182,10 +196,11 @@ public final class ViewfinderView extends View {
     //画扫描框下面的字
     private void drawBottomText(Canvas canvas, Rect frame) {
         paint.setColor(Color.WHITE);
-        paint.setTextSize(TEXT_SIZE * density);
+//        paint.setTextSize(TEXT_SIZE * density);
+        paint.setTextSize(bottomTextSize);
         paint.setAlpha(0x40);
         paint.setTypeface(Typeface.create("System", Typeface.BOLD));
-        canvas.drawText(getResources().getString(R.string.scan_text), frame.left + frame.width() / 2, (float) (frame.bottom + (float)TEXT_PADDING_TOP *density), paint);
+        canvas.drawText(bottomText, frame.left + frame.width() / 2, (float) (frame.bottom + (float)TEXT_PADDING_TOP *density), paint);
     }
 
     //绘制文本
