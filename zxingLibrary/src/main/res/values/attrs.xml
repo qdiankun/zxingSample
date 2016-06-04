@@ -7,6 +7,7 @@
     <!--frame_color 扫描框边线颜色-->
     <!--mask_color 模糊区域颜色-->
     <!--label_text 框上方提示-->
+    <!--bottom_text 框下方提示-->
     <declare-styleable name="ViewfinderView">
         <attr name="corner_color" format="color" />
         <attr name="laser_color" format="color" />
@@ -17,6 +18,8 @@
         <attr name="label_text_color" format="color" />
         <attr name="label_text" format="string" />
         <attr name="label_text_size" format="float" />
+        <attr name="bottom_text" format="string" />
+        <attr name="bottom_text_size" format="float" />
     </declare-styleable>
 
 </resources>

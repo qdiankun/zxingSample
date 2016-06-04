@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ComposeShader;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -29,6 +30,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -48,8 +50,8 @@ public final class ViewfinderView extends View {
     private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
     private static final long ANIMATION_DELAY = 10L;
     private static final int OPAQUE = 0xFF;
-    private static final int CORNER_RECT_WIDTH = 8;  //扫描区边角的宽
-    private static final int CORNER_RECT_HEIGHT = 40; //扫描区边角的高
+    private static final int CORNER_RECT_WIDTH = 13;  //扫描区边角的宽
+    private static final int CORNER_RECT_HEIGHT = 45; //扫描区边角的高
     private static final int SCANNER_LINE_MOVE_DISTANCE = 5;  //扫描线移动距离
     private static final int SCANNER_LINE_HEIGHT = 10;  //扫描线宽度
 
@@ -72,6 +74,14 @@ public final class ViewfinderView extends View {
     //扫描区域提示文本颜色
     private final int labelTextColor;
     private final float labelTextSize;
+
+    // 字体大小
+    private static final int TEXT_SIZE = 16;
+    //手机的屏幕密度
+    private static float density;
+    //字体距离扫描框下面的距离
+    private static final int TEXT_PADDING_TOP = 30;
+
 
     public static int scannerStart = 0;
     public static int scannerEnd = 0;
@@ -96,11 +106,11 @@ public final class ViewfinderView extends View {
         labelTextSize = array.getFloat(R.styleable.ViewfinderView_label_text_size, 36f);
 
         // Initialize these once for performance rather than calling them every time in onDraw().
+        density = context.getResources().getDisplayMetrics().density;
         paint = new Paint();
         paint.setAntiAlias(true);
         scannerAlpha = 0;
         possibleResultPoints = new HashSet<ResultPoint>(5);
-
 
     }
 
@@ -139,6 +149,8 @@ public final class ViewfinderView extends View {
             // Draw a red "laser scanner" line through the middle to show decoding is active
             drawLaserScanner(canvas, frame);
 
+            drawBottomText(canvas, frame);
+
             Collection<ResultPoint> currentPossible = possibleResultPoints;
             Collection<ResultPoint> currentLast = lastPossibleResultPoints;
             if (currentPossible.isEmpty()) {
@@ -165,6 +177,15 @@ public final class ViewfinderView extends View {
             //指定重绘区域，该方法会在子线程中执行
             postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
         }
+    }
+
+    //画扫描框下面的字
+    private void drawBottomText(Canvas canvas, Rect frame) {
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(TEXT_SIZE * density);
+        paint.setAlpha(0x40);
+        paint.setTypeface(Typeface.create("System", Typeface.BOLD));
+        canvas.drawText(getResources().getString(R.string.scan_text), frame.left + frame.width() / 2, (float) (frame.bottom + (float)TEXT_PADDING_TOP *density), paint);
     }
 
     //绘制文本

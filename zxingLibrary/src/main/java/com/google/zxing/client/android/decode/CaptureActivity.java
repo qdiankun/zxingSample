@@ -49,6 +49,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
         hasSurface = false;
@@ -61,6 +62,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     protected void onResume() {
+        Log.i(TAG, "onResume");
         super.onResume();
 
 
@@ -97,6 +99,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     protected void onPause() {
+        Log.i(TAG, "onPause");
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
@@ -116,6 +119,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     protected void onDestroy() {
+        Log.i(TAG, "onDestroy");
         inactivityTimer.shutdown();
         super.onDestroy();
     }
@@ -170,6 +174,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.i(TAG, "surfaceCreated");
         if (holder == null) {
             Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
         }
@@ -181,11 +186,12 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.i(TAG, "surfaceDestroyed");
         hasSurface = false;
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        Log.i(TAG, "surfaceChanged");
     }
 }
